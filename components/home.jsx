@@ -1,5 +1,7 @@
 import styled from "styled-components/native";
 import { useNavigate } from "react-router-native";
+import { useColorScheme } from "react-native";
+import { useEffect, useState } from "react";
 
 const Container = styled.View`
   width: 100%;
@@ -25,10 +27,17 @@ const Button = styled.TouchableOpacity`
 const TextButton = styled.Text`
   font-size: 20px;
   font-weight: bold;
+  color: ${(props) => (props.theme === "dark" ? "#212121" : "#ffffff")};
 `;
 
 const Home = () => {
   const navigate = useNavigate();
+  const colorScheme = useColorScheme();
+  const [theme, setTheme] = useState(colorScheme);
+
+  useEffect(() => {
+    setTheme(colorScheme);
+  }, [colorScheme]);
 
   const onPress = (e) => {
     if (e === "Login") return navigate("/signIn");
@@ -44,7 +53,7 @@ const Home = () => {
           onPress("Login");
         }}
       >
-        <TextButton>Login</TextButton>
+        <TextButton theme={theme}>Login</TextButton>
       </Button>
       <Button
         button="Register"
@@ -52,7 +61,7 @@ const Home = () => {
           onPress("Register");
         }}
       >
-        <TextButton>Register</TextButton>
+        <TextButton theme={theme}>Register</TextButton>
       </Button>
     </Container>
   );
